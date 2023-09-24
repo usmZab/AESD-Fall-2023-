@@ -16,6 +16,5 @@ This repository contains sample codes for **FreeRTOS** demos.
 
 The codes are based on sample codes provided in the **FreeRTOS book by Barry White** titled "Mastering the FreeRTOS Real Time Kernel".
 
-Please see official FreeRTOS documentation at 
-[Official FreeRTOS documentation](https://www.freertos.org/Documentation/RTOS_book.html)
+Please see [official FreeRTOS documentation at freeRTOS.org](https://www.freertos.org/Documentation/RTOS_book.html)
 
