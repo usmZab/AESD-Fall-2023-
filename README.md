@@ -14,7 +14,8 @@ Being professional Electrical Engineers, let us adhere to the IEEE Code of Ethic
 ## RTOS-Codes
 This repository contains sample codes for **FreeRTOS** demos.
 
-The codes are based on sample codes provided in the **FreeRTOS book by Barry White** titled "Mastering the FreeRTOS Real Time Kernel".
+The codes are based on public-domain sample codes provided in the **FreeRTOS book by Barry White** titled "Mastering the FreeRTOS Real Time Kernel".
 
 Please see [official FreeRTOS documentation at freeRTOS.org](https://www.freertos.org/Documentation/RTOS_book.html)
 
+I have used these codes, and modified these to run on ESP32 MCU.
