@@ -1,1 +1,102 @@
+#include <esp_task_wdt.h>
+
+void setup() {
+ 
+  Serial.begin(112500);
+  delay(1000);
+ 
+  xTaskCreatePinnedToCore(
+                    taskOne,          /* Task function. */
+                    "TaskOne",        /* String with name of task. */
+                    10000,            /* Stack size in bytes. */
+                    NULL,             /* Parameter passed as input of the task */
+                    1,                /* Priority of the task. */
+                    NULL,             /* Task handle. */
+                    0);               /* Task pinned to core n . */
+ 
+  xTaskCreatePinnedToCore(
+                    taskTwo,          /* Task function. */
+                    "TaskTwo",        /* String with name of task. */
+                    10000,            /* Stack size in bytes. */
+                    NULL,             /* Parameter passed as input of the task */
+                    2,                /* Priority of the task. */
+                    NULL,             /* Task handle. */
+                    0);               /* Task pinned to core n . */
+
+  xTaskCreatePinnedToCore(
+                    taskThree,          /* Task function. */
+                    "TaskThree",        /* String with name of task. */
+                    10000,            /* Stack size in bytes. */
+                    NULL,             /* Parameter passed as input of the task */
+                    3,                /* Priority of the task. */
+                    NULL,             /* Task handle. */
+                    0);               /* Task pinned to core n . */
+}
+ 
+void loop() {
+}
+ 
+void taskOne( void * pvParameters )
+{
+
+ volatile int dummy = 0;
+ for(;;){
+    for(int i = 0;i<2000000;i++ ){
+      for(int j = 0;j<10;j++ ){
+        dummy += 1;
+    }
+    }
+
+    Serial.print(dummy);
+    Serial.println("Running task 1");
+    
+    //vTaskDelay(5000);
+    vTaskDelay(pdMS_TO_TICKS(5000));    /* Delay/Block the Task for exactly 5000 ms */
+}
+}
+ 
+void taskTwo( void * pvParameters)
+{
+ volatile int dummy2 = 0;
+ for(;;){ 
+    for(int i = 0;i<2000000;i++ ){
+      for(int j = 0;j<10;j++ ){
+         dummy2 += 1;
+    }
+    }
+
+    Serial.print(dummy2);
+    Serial.println("Running task 2");
+    
+    //vTaskDelay(pdMS_TO_TICKS(5000));    /* Delay/Block the Task for exactly 5000 ms */
+}
+}
+
+
+void taskThree( void * pvParameters)
+{
+ volatile int dummy3 = 0;
+
+  uint32_t timeout = 12; // TWDT timeout in seconds
+  bool panic = 1;       // Execute the panic handler or not
+  
+  esp_task_wdt_init(timeout, panic);   // Initialize the TWDT from a Task
+                                      // function is included in #include <esp_task_wdt.h>
+ for(;;){ 
+    for(int i = 0;i<2000000;i++ ){
+      for(int j = 0;j<10;j++ ){
+         dummy3 += 1;
+    }
+    }
+    Serial.print(dummy3);
+    Serial.println("Running task 3");
+    
+    vTaskDelay(pdMS_TO_TICKS(5000));   /* Delay/Block the Task for exactly 5000 ms */
+}
+}
+
+// interesting execution behaviours are observed by commenting out vTaskDelay(), e.g. from Task 1
+// In this code, I use the API "esp_task_wdt_init(timeout, panic);"
+// Then, TWDT's default timeout value is increased to 12 seconds.
+// Also, toggling the "panic" argument deactivates the execution of panic handler which causes system reset.
 
